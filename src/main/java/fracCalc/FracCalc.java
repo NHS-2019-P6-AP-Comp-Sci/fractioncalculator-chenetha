@@ -11,9 +11,15 @@ public class FracCalc {
 	public static void main(String[] args) {
 		// TODO: Read the input from the user and call produceAnswer with an equation
 		Scanner num = new Scanner(System.in);
+		
 		System.out.print("Enter a fraction problem: ");
 		String userResponse = num.nextLine();
-		
+		while(!userResponse.equalsIgnoreCase("quit")) {
+			System.out.println(produceAnswer(userResponse));
+			System.out.print("Enter a fraction problem: ");
+			userResponse = num.nextLine();
+		}
+
 		System.out.println(produceAnswer(userResponse));
 	}
 
@@ -30,14 +36,48 @@ public class FracCalc {
 	// e.g. return ==> "1_1/4"
 	public static String produceAnswer(String input) {
 		// TODO: Implement this function to produce the solution to the input
-		Scanner num = new Scanner(input);
-		String number1 = num.next();
-		String operator = num.next();
-		String number2 = num.next();
+		String temp = input;
+		String number1 = temp.substring(0, temp.indexOf(' '));
+		temp = temp.substring(temp.indexOf(' ') + 1);
+		String operator = temp.substring(0, temp.indexOf(' '));
+		temp = temp.substring(temp.indexOf(' ') + 1);
+		String number2 = temp;
 		
-		return number2;
+		String number2Whole = findWhole(number2);
+		String number2Numerator = findNum(number2);
+		String number2Denominator = findDenom(number2);
+		
+		String checkAnswer = "whole:" + number2Whole + " numerator:" + number2Numerator + " denominator:" + number2Denominator;
+		
+		return checkAnswer;
+	}		
+		public static String findWhole(String str) {
+			if (str.contains("_")) {
+				return str.substring(0, str.indexOf('_'));
+			} else if (str.contains("/")) {
+				return "0";
+			} else return str;
+		}
+		
+		public static String findNum(String str) {
+			if (str.contains("_")) {
+				return str.substring(str.indexOf('_') + 1, str.indexOf('/'));
+			} else if (str.contains("/")) {
+				return str.substring(0, str.indexOf('/'));
+			} else {
+				return "0";
+			}
+		}
+		 
+		public static String findDenom(String str) {
+			if (str.contains("/")) {
+				return str.substring(str.indexOf("/") + 1);
+			} else {
+				return "1";
+			}
+		}
+	{
 	}
-
 	// TODO: Fill in the space below with any helper methods that you think you will
 	// need
 
